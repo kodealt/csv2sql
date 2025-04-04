@@ -1,9 +1,9 @@
 # csv2sql
 This is a simple gui for my project, anime. This translates the previous CSV based data storing system to a much more efficient SQLite based Database storage.
 
-# how to use
-
 <strong> ONLY USE THIS IF YOU HAVE USED THE VERSION 1 OF ANIME.py</strong>
+
+# how to use ( EXE )
 
 to use this, you can either use the pre-compiled code in the release. 
 
@@ -28,3 +28,11 @@ this process will take a while, as all of the titles in your list will have to g
 after the database has been compiled, you can quit the GUI.
 
 And thats it! you have the database file. If you have any issues with the app, feel free to send me a dm on discord : @a_persan
+
+# how to use ( py ) 
+
+the process is the same as the exe version, except you need to install some dependencies. aka just requests.
+
+you also need to use python version 3.12.5 idk what other versions work. later should be fine. probably.
+
+`pip install requests`
