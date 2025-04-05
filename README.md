@@ -3,6 +3,8 @@ This is a simple gui for my project, anime. This translates the previous CSV bas
 
 <strong> ONLY USE THIS IF YOU HAVE USED THE VERSION 1 OF ANIME.py</strong>
 
+[silly tut video](https://youtu.be/d7zhi_EfLN8)
+
 # how to use ( EXE )
 
 to use this, you can either use the pre-compiled code in the release. 
