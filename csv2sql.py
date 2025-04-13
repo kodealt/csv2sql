@@ -5,6 +5,7 @@ from tkinter import filedialog
 import requests
 import time
 import os
+import json
 
 csvFile = None
 location =  os.path.abspath(__file__)
@@ -14,6 +15,19 @@ print(folderDirSave)
 #     reader = csv.DictReader(readTScsv)
 #     for row in reader:
 #         csvData.append(row)
+
+usrVer = "v1.0"
+response = requests.get(f"https://raw.githubusercontent.com/kodealt/csv2sql/refs/heads/main/version.txt")
+response.raise_for_status()
+raw = response.text
+results = json.loads(raw)
+
+curVer = results['version']
+if usrVer != curVer:
+    print(f"a new version ({curVer}) is available. to update, follow this link:\nhttps://github.com/kodealt/csv2sql/releases/tag/csv2sql\n")
+    print(f"updates:\n{results['changes']}")
+else:
+    print(f"up to date. ({curVer})")
 
 def convert(csvFile = None):
 
@@ -43,7 +57,8 @@ def convert(csvFile = None):
                    episodes INTEGER,
                    duration TEXT,
                    titleEn TEXT,
-                   titleJp TEXT
+                   titleJp TEXT,
+                   synopsis TEXT
                    )
 """)
 
@@ -71,6 +86,7 @@ def convert(csvFile = None):
             except ValueError:
                 rating = 0.0
 
+            name = anime.get("title", i['NAME'])
             airing = anime['airing']
             status = anime['status']
             days = anime['broadcast']['day']
@@ -82,8 +98,9 @@ def convert(csvFile = None):
             duration = anime.get('duration', 'Unknown')
             titleEn = anime.get("title_english", "N/A")
             titleJp = anime.get("title_japanese", "N/A")
+            synopsis = anime.get("synopsis", "N/A")
 
-            cursor.execute(f"INSERT OR REPLACE INTO anime (name, indexing, watched, tags, rating, airing, status, days, time, startDate, endDate, priority, episodes, duration, titleEn, titleJp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (i['NAME'], i['INDEX'], i.get('VALUE', 0), i.get('TAGS', ''), rating, airing, status, days, times, startDate, endDate, priority, episodes, duration, titleEn, titleJp))
+            cursor.execute(f"INSERT OR REPLACE INTO anime (name, indexing, watched, tags, rating, airing, status, days, time, startDate, endDate, priority, episodes, duration, titleEn, titleJp, synopsis) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (name, i['INDEX'], i.get('VALUE', 0), i.get('TAGS', ''), rating, airing, status, days, times, startDate, endDate, priority, episodes, duration, titleEn, titleJp, synopsis))
         
             print(f'{i["NAME"]} done. ~{round((theLength - j) * 1.1, 1)} seconds remaining ({j}/{theLength})')
             previewInfo.config(text=f'{i["NAME"]} done. ~{round((theLength - j) * 1.1, 1)} seconds remaining ({j}/{theLength})')
@@ -141,7 +158,7 @@ def preview(file = None):
         previewInfo.config(text="\n".join(str(f) for f in file), font=("Arial", 5))
 
 root = tk.Tk()
-root.title("Csv To SQL")
+root.title(f"Csv To SQL {curVer}")
 root.geometry("350x450")
 root.configure(bg = "#1C1C1C")
 
