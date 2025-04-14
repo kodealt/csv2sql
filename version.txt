@@ -1,4 +1,4 @@
 {
   "version": "v1.1",
-  "changes": "\tadded a version indicator \n\tupdated romanji/en default titles, along with synopsis (a summary)"
+  "changes": "\t⤷ added a version indicator \n\t⤷ updated romanji/en default titles, along with synopsis (a summary)"
 }
